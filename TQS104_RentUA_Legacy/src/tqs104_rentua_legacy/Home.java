@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -110,7 +111,7 @@ public class Home extends javax.swing.JFrame {
         int status;
         String auth;
         HttpURLConnection connection = null;
-        String urlParameters  = "login="+jTextField1.getText()+"&password="+Arrays.toString(jPasswordField1.getPassword());
+        String urlParameters  = "name="+jTextField1.getText()+"&password="+String.valueOf(jPasswordField1.getPassword());
         try {
             byte[] postData = urlParameters.getBytes( StandardCharsets.UTF_8 );
             URL url = new URL("http://localhost:8080/RentUA_RestAPI/rest/user/login");
@@ -127,9 +128,11 @@ public class Home extends javax.swing.JFrame {
             wr.flush();
             wr.close();
             status = connection.getResponseCode();
+            JOptionPane.showMessageDialog(null, connection.getResponseMessage());
             if(status == HttpURLConnection.HTTP_OK)
             {
                 auth = connection.getHeaderField("Authorization");
+                JOptionPane.showMessageDialog(null, auth);
             }
         } catch (Exception e)
         {
