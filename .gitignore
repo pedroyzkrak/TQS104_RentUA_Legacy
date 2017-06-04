@@ -62,3 +62,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /TQS104_RentUA_Legacy/nbproject/private/
+/TQS104_RentUA_Legacy/dist/
+/TQS104_RentUA_Legacy/build/
