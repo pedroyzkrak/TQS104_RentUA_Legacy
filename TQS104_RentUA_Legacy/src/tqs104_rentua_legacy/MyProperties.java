@@ -43,7 +43,7 @@ public class MyProperties extends javax.swing.JFrame {
         String line;
         String title;
         String type;
-        String description;
+        String description = "";
         String price;
         try {
             obj = new URL(url);
@@ -60,8 +60,9 @@ public class MyProperties extends javax.swing.JFrame {
             {
                 JSONObject json_data = jsonarray.getJSONObject(i);
                 title = "Título: "+json_data.getString("title");
-                description = "Descrição: "+json_data.getString("description");
-                type = json_data.getString("type");
+                if (!json_data.isNull("descriptin"))
+                    description = "Descrição: "+json_data.getString("description");
+                type = String.valueOf(json_data.getInt("type"));
                 if(type.equals("0"))
                 {
                     type = "Tipo: Casa";
@@ -69,7 +70,7 @@ public class MyProperties extends javax.swing.JFrame {
                 else {
                     type = "Tipo: Quarto";
                 }
-                price = "Preço: "+json_data.getString("price")+"€";
+                price = "Preço: "+json_data.getInt("price")+"€";
                 Property prop = new Property(title,price,type,description);
                 props.add(prop);
             }
