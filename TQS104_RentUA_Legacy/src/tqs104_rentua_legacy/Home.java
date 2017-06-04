@@ -134,9 +134,10 @@ public class Home extends javax.swing.JFrame {
             {
                 
                 auth = connection.getHeaderField("Authorization");
+
                 JOptionPane.showMessageDialog(null, auth);
                 this.dispose();
-                new MyProperties(username).setVisible(true);
+                new MyProperties(username,auth).setVisible(true);
             }
         } catch (Exception e)
         {

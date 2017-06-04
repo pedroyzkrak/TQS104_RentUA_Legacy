@@ -31,8 +31,10 @@ public class MyProperties extends javax.swing.JFrame {
      */
     public static String username;
     public static List<Property> props = new ArrayList<>();
-    public MyProperties(String username) {
+    public static String auth;
+    public MyProperties(String username,String auth) {
         initComponents();
+        this.auth = auth;
         this.username = username;
         String url = "http://localhost:8080/RentUA_RestAPI/rest/property/user/" + username;
         HttpURLConnection connection = null;
@@ -70,7 +72,7 @@ public class MyProperties extends javax.swing.JFrame {
                 else {
                     type = "Tipo: Quarto";
                 }
-                price = "Preço: "+json_data.getInt("price")+"€";
+                price = "Preço por Semestre: "+json_data.getInt("price")+"€";
                 Property prop = new Property(title,price,type,description);
                 props.add(prop);
             }
@@ -114,6 +116,11 @@ public class MyProperties extends javax.swing.JFrame {
         jLabel1.setText("Minhas Propriedades Submetidas");
 
         SubmitPropButton.setText("Submeter Propriedade");
+        SubmitPropButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubmitPropButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,6 +154,10 @@ public class MyProperties extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void SubmitPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitPropButtonActionPerformed
+        new SubmitProperty(auth).setVisible(true);
+    }//GEN-LAST:event_SubmitPropButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,7 +188,7 @@ public class MyProperties extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MyProperties(username).setVisible(true);
+                new MyProperties(username,auth).setVisible(true);
             }
         });
     }
