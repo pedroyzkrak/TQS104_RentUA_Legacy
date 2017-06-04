@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.json.*;
 
 /**
  *
@@ -40,7 +41,7 @@ public class MyProperties extends javax.swing.JFrame {
             connection.setRequestMethod("GET");
             BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             while ((line = rd.readLine()) != null) {
-                result.append(line);
+                result.append(line+"\n");
             }
             rd.close();
             JOptionPane.showMessageDialog(null, result);
