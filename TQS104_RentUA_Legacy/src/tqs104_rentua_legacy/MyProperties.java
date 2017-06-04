@@ -60,12 +60,7 @@ public class MyProperties extends javax.swing.JFrame {
             {
                 JSONObject json_data = jsonarray.getJSONObject(i);
                 title = "Título: "+json_data.getString("title");
-                description = "Sem Descrição";
-                if(json_data.getString("description")!=null)
-                {
-                    description = "Descrição: "+json_data.getString("description");
-                }
-                
+                description = "Descrição: "+json_data.getString("description");
                 type = json_data.getString("type");
                 if(type.equals("0"))
                 {
