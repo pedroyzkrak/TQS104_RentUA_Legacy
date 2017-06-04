@@ -12,12 +12,12 @@ package tqs104_rentua_legacy;
  */
 public class Property {
     private String title;
-    private double price;
+    private String price;
     private String type;
     private String description;
     //mais tarde os intervalos
 
-    public Property(String title, double price, String type, String description) {
+    public Property(String title, String price, String type, String description) {
         this.title = title;
         this.price = price;
         this.type = type;
@@ -34,11 +34,11 @@ public class Property {
         this.title = title;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

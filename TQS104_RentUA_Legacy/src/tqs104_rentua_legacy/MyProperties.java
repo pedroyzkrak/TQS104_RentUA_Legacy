@@ -5,14 +5,18 @@
  */
 package tqs104_rentua_legacy;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.json.*;
 
@@ -26,7 +30,7 @@ public class MyProperties extends javax.swing.JFrame {
      * Creates new form MyProperties
      */
     public static String username;
-
+    public static List<Property> props = new ArrayList<>();
     public MyProperties(String username) {
         initComponents();
         this.username = username;
@@ -34,22 +38,54 @@ public class MyProperties extends javax.swing.JFrame {
         HttpURLConnection connection = null;
         URL obj;
         StringBuilder result = new StringBuilder();
+        JSONTokener tk;
+        JSONArray jsonarray;
         String line;
+        String title;
+        String type;
+        String description;
+        String price;
         try {
             obj = new URL(url);
             connection = (HttpURLConnection) obj.openConnection();
             connection.setRequestMethod("GET");
             BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             while ((line = rd.readLine()) != null) {
-                result.append(line+"\n");
+                result.append(line);
             }
             rd.close();
+            tk = new JSONTokener(result.toString());
+            jsonarray = new JSONArray(tk);
+            for(int i = 0;i<jsonarray.length();i++)
+            {
+                JSONObject json_data = jsonarray.getJSONObject(i);
+                title = "Título: "+json_data.getString("title");
+                description = "Descrição: "+json_data.getString("description");
+                type = json_data.getString("type");
+                if(type.equals("0"))
+                {
+                    type = "Tipo: Casa";
+                }
+                else {
+                    type = "Tipo: Quarto";
+                }
+                price = "Preço: "+json_data.getString("price")+"€";
+                Property prop = new Property(title,price,type,description);
+                props.add(prop);
+            }
             JOptionPane.showMessageDialog(null, result);
         } catch (MalformedURLException ex) {
             Logger.getLogger(MyProperties.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MyProperties.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
+            DefaultListModel model = new DefaultListModel();
+            for(Property p : props)
+            {
+                model.addElement(p);
+            }
+            MyPropsList.setModel(model);
     }
 
     /**
@@ -64,6 +100,7 @@ public class MyProperties extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         MyPropsList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+        SubmitPropButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,25 +113,31 @@ public class MyProperties extends javax.swing.JFrame {
 
         jLabel1.setText("Minhas Propriedades Submetidas");
 
+        SubmitPropButton.setText("Submeter Propriedade");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(67, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(243, 243, 243))))
+                        .addGap(60, 60, 60)
+                        .addComponent(SubmitPropButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(SubmitPropButton))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(48, Short.MAX_VALUE))
@@ -134,15 +177,14 @@ public class MyProperties extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
                 new MyProperties(username).setVisible(true);
-
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> MyPropsList;
+    private javax.swing.JButton SubmitPropButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
