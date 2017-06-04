@@ -73,7 +73,6 @@ public class MyProperties extends javax.swing.JFrame {
                 Property prop = new Property(title,price,type,description);
                 props.add(prop);
             }
-            JOptionPane.showMessageDialog(null, result);
         } catch (MalformedURLException ex) {
             Logger.getLogger(MyProperties.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
