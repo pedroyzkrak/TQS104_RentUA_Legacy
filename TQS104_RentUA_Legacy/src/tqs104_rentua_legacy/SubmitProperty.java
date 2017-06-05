@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static tqs104_rentua_legacy.MyProperties.auth;
 
 /**
  *
@@ -55,6 +56,7 @@ public class SubmitProperty extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jBathroom = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,8 +72,6 @@ public class SubmitProperty extends javax.swing.JFrame {
 
         jLabel4.setText("Preço por semestre");
 
-        jTipoProp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setText("Tipo de Propriedade");
 
         jLabel6.setText("Número de casas de banho");
@@ -80,6 +80,13 @@ public class SubmitProperty extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jBack.setText("Voltar");
+        jBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBackActionPerformed(evt);
             }
         });
 
@@ -117,6 +124,8 @@ public class SubmitProperty extends javax.swing.JFrame {
                                 .addGap(50, 50, 50))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBack, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(287, 287, 287))
         );
@@ -150,7 +159,9 @@ public class SubmitProperty extends javax.swing.JFrame {
                             .addComponent(jBathroom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(67, 67, 67)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jBack))
                 .addContainerGap(121, Short.MAX_VALUE))
         );
 
@@ -164,12 +175,12 @@ public class SubmitProperty extends javax.swing.JFrame {
         int status;
         if(jTipoProp.getSelectedItem().toString().equals("Casa"))
         {
-            type=1;
+            type=0;
         }
         String json = "{\"title\":\""+jTitle.getText()+"\",\"description\":\""+jTextArea1.getText()+"\",\"price\":"+jPrice.getText()+",\"type\":"+type+",\"bathrooms\":"+jBathroom.getText()+"}";
         try 
         {
-            URL url = new URL("http://localhost:8080/RentUA_RestAPI/rest/property");
+            URL url = new URL("http://192.168.160.225:8080/RentUA_RestAPI/rest/property");
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestProperty("Authorization",auth);
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -195,6 +206,11 @@ public class SubmitProperty extends javax.swing.JFrame {
             
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackActionPerformed
+        new MyProperties(MyProperties.username, auth).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,6 +251,7 @@ public class SubmitProperty extends javax.swing.JFrame {
     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBack;
     private javax.swing.JTextField jBathroom;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

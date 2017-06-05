@@ -115,7 +115,7 @@ public class Home extends javax.swing.JFrame {
         String urlParameters  = "name="+username+"&password="+String.valueOf(jPasswordField1.getPassword());
         try {
             byte[] postData = urlParameters.getBytes( StandardCharsets.UTF_8 );
-            URL url = new URL("http://localhost:8080/RentUA_RestAPI/rest/user/login");
+            URL url = new URL("http://192.168.160.225:8080/RentUA_RestAPI/rest/user/login");
             connection = (HttpURLConnection)url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -135,7 +135,6 @@ public class Home extends javax.swing.JFrame {
                 
                 auth = connection.getHeaderField("Authorization");
 
-                JOptionPane.showMessageDialog(null, auth);
                 this.dispose();
                 new MyProperties(username,auth).setVisible(true);
             }

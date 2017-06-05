@@ -34,9 +34,10 @@ public class MyProperties extends javax.swing.JFrame {
     public static String auth;
     public MyProperties(String username,String auth) {
         initComponents();
+        props.removeAll(props);
         this.auth = auth;
         this.username = username;
-        String url = "http://localhost:8080/RentUA_RestAPI/rest/property/user/" + username;
+        String url = "http://192.168.160.225:8080/RentUA_RestAPI/rest/property/user/" + username;
         HttpURLConnection connection = null;
         URL obj;
         StringBuilder result = new StringBuilder();
@@ -156,6 +157,7 @@ public class MyProperties extends javax.swing.JFrame {
 
     private void SubmitPropButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitPropButtonActionPerformed
         new SubmitProperty(auth).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_SubmitPropButtonActionPerformed
 
     /**
